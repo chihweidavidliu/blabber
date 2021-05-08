@@ -1,0 +1,8 @@
+node_modules/
+build/
+
+# env variables
+.env
+.env.production
+
+app/config/config.json
