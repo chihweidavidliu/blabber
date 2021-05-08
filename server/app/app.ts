@@ -30,6 +30,7 @@ app.use(router);
 // socket io requires you to create a server via the http library
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
+  allowEIO3: true,
   cookie: {
     httpOnly: false
   }
