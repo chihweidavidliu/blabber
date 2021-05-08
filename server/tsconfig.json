@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["react", "jest"],
     "resolveJsonModule": true,
     /* Basic Options */
     // "incremental": true,                   /* Enable incremental compilation */
