@@ -30,6 +30,7 @@ app.use(router);
 // socket io requires you to create a server via the http library
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
+  transports: ["websocket"],
   allowEIO3: true,
   cookie: {
     httpOnly: false
@@ -37,11 +38,10 @@ const io = new Server(httpServer, {
 });
 
 // configure redist adaptor
+const pubClient = new RedisClient({ host: process.env.REDIS_HOST, port: Number(process.env.REDIS_PORT) });
+const subClient = pubClient.duplicate();
 
-// const pubClient = new RedisClient({ host: process.env.REDIS_HOST, port: Number(process.env.REDIS_PORT) });
-// const subClient = pubClient.duplicate();
-
-// io.adapter(createAdapter({ pubClient, subClient}))
+io.adapter(createAdapter({ pubClient, subClient}))
 
 // default namespace
 const apiNamespace = io.of("/")

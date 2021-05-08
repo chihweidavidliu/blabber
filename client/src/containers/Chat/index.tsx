@@ -16,7 +16,9 @@ import MobileSidebar from "../../components/MobileSidebar";
 import UserList from "../../components/UserList";
 import { Topbar } from "../../components/Topbar";
 
-const socket = io("/"); // default namespace
+const socket = io("/", {
+  transports: ["websocket"]
+}); // default namespace
 
 
 
