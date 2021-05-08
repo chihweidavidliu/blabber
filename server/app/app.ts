@@ -28,8 +28,8 @@ app.use(router);
 const httpServer = http.createServer(app);
 const io = socketio(httpServer);
 
-// configure namespace due to server being accessible only from /api due to ingress rules
-const apiNamespace = io.of("/api")
+// default namespace
+const apiNamespace = io.of("/")
 
 
 apiNamespace.on('connection', socket => {

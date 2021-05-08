@@ -16,7 +16,7 @@ import MobileSidebar from "../../components/MobileSidebar";
 import UserList from "../../components/UserList";
 import { Topbar } from "../../components/Topbar";
 
-const socket = io("/api");
+const socket = io("/"); // default namespace
 
 
 
@@ -86,6 +86,8 @@ const UserListWrapper = styled.div`
 `;
 
 const Chat = () => {
+
+  console.log('socket', socket)
   const location = useLocation();
   const history = useHistory();
   const isMobile = useMediaQuery({ query: "(max-width: 376px)" });

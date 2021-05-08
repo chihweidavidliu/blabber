@@ -1,25 +1,26 @@
-apiVersion: networking.k8s.io/v1
+apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
 metadata:
   name: ingress-srv
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: "true"
+    # extend timeout for websocket
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 spec:
   rules:
     - http:
         paths:
-          - path: /api/
-            pathType: Prefix
+          - path: /socket.io/?(.*)
             backend:
-                service:
-                  name: server-srv
-                  port:
-                    number: 3000
-          - path: /
-            pathType: Prefix
+              serviceName: server-srv
+              servicePort: 3000
+          - path: /api/?(.*)
             backend:
-                service:
-                  name: client-srv
-                  port:
-                    number: 5000
+              serviceName: server-srv
+              servicePort: 3000
+          - path: /?(.*)
+            backend:
+                serviceName: client-srv
+                servicePort: 3000
