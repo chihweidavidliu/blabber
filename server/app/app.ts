@@ -3,7 +3,6 @@ import express, { Application } from 'express';
 import socketio from 'socket.io';
 import http from 'http';
 import router from './router';
-// import mongoose from 'mongoose';
 
 import { addUser, removeUser, getUser, getUsersInRoom } from './users';
 
@@ -79,11 +78,6 @@ io.on('connection', socket => {
   });
 });
 
-// Database - dont' need this for now
-// mongoose.Promise = global.Promise;
-// mongoose
-//   .connect(`${process.env.MONGODB_URI}`)
-//   .catch((err: Error) => console.log('There was an error', err));
 
 // note that app.listen doesn't work here with socket io, must use instance of server created vio http library
 export const server = httpServer.listen(process.env.PORT, function() {
