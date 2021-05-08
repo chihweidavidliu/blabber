@@ -2,6 +2,8 @@
 import express, { Application } from 'express';
 import socketio from 'socket.io';
 import http from 'http';
+import { createAdapter } from 'socket.io-redis';
+import { RedisClient } from 'redis';
 import router from './router';
 
 import { addUser, removeUser, getUser, getUsersInRoom } from './users';
@@ -20,6 +22,7 @@ if (env === 'development' || env === 'test') {
   });
 }
 
+
 // Create a new express application instance
 const app: Application = express();
 app.use(router);
@@ -27,6 +30,13 @@ app.use(router);
 // socket io requires you to create a server via the http library
 const httpServer = http.createServer(app);
 const io = socketio(httpServer);
+
+// configure redist adaptor
+
+const pubClient = new RedisClient({ host: process.env.REDIS_HOST, port: Number(process.env.REDIS_PORT) });
+const subClient = pubClient.duplicate();
+
+io.adapter(createAdapter({ pubClient, subClient}))
 
 // default namespace
 const apiNamespace = io.of("/")

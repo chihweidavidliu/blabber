@@ -14,8 +14,10 @@ spec:
     spec:
       containers:
         - name: server
-          # image: us.gcr.io/quantum-theme-280313/server
           image: chihweidavidliu/blabber-server
+          envFrom:
+          - configMapRef:
+              name: config
 ---
 apiVersion: v1
 kind: Service

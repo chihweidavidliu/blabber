@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config
+data:
+  # property-like keys; each key maps to a simple value
+  REDIS_HOST: blabber-redis-srv
+  REDIS_PORT: '6379'
