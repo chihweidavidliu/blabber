@@ -1,6 +1,6 @@
 // lib/app.ts
 import express, { Application } from 'express';
-import socketio from 'socket.io';
+import { Server} from 'socket.io';
 import http from 'http';
 import { createAdapter } from 'socket.io-redis';
 import { RedisClient } from 'redis';
@@ -29,14 +29,18 @@ app.use(router);
 
 // socket io requires you to create a server via the http library
 const httpServer = http.createServer(app);
-const io = socketio(httpServer);
+const io = new Server(httpServer, {
+  cookie: {
+    httpOnly: false
+  }
+});
 
 // configure redist adaptor
 
-const pubClient = new RedisClient({ host: process.env.REDIS_HOST, port: Number(process.env.REDIS_PORT) });
-const subClient = pubClient.duplicate();
+// const pubClient = new RedisClient({ host: process.env.REDIS_HOST, port: Number(process.env.REDIS_PORT) });
+// const subClient = pubClient.duplicate();
 
-io.adapter(createAdapter({ pubClient, subClient}))
+// io.adapter(createAdapter({ pubClient, subClient}))
 
 // default namespace
 const apiNamespace = io.of("/")
