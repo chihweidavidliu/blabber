@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { IUser } from "../../types/user";
 
 const UserListWrapper = styled.div`
