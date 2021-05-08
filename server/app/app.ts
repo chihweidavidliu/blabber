@@ -28,7 +28,11 @@ app.use(router);
 const httpServer = http.createServer(app);
 const io = socketio(httpServer);
 
-io.on('connection', socket => {
+// configure namespace due to server being accessible only from /api due to ingress rules
+const apiNamespace = io.of("/api")
+
+
+apiNamespace.on('connection', socket => {
   console.log('we have a new connection');
 
   // joining
@@ -49,7 +53,7 @@ io.on('connection', socket => {
 
       socket.join(user.room);
       // send info about all the people in the room
-      io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+      apiNamespace.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
       callback({ success: true });
     }
@@ -63,17 +67,17 @@ io.on('connection', socket => {
       return callback({ error: 'No user found' });
     }
 
-    io.to(user.room).emit('message', { user: user.name, text: message });
+    apiNamespace.to(user.room).emit('message', { user: user.name, text: message });
     callback({ success: true });
   });
 
   socket.on('disconnect', () => {
     const user = removeUser(socket.id);
     if (user) {
-      io.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left` });
+      apiNamespace.to(user.room).emit('message', { user: 'admin', text: `${user.name} has left` });
 
       // update room data
-      io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
+      apiNamespace.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
     }
   });
 });
