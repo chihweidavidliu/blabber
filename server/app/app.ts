@@ -34,7 +34,7 @@ const io = new Server(httpServer, {
   transports: ["websocket"],
   allowEIO3: true, // backwards compatibility with older socket.io-client versions
   cookie: {
-    httpOnly: false
+    httpOnly: false 
   }
 });
 
