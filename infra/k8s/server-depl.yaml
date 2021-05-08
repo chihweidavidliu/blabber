@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: server
+          # image: us.gcr.io/quantum-theme-280313/server
+          image: chihweidavidliu/blabber-server
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: server-srv
+spec:
+  selector:
+    app: server
+  type: ClusterIP
+  ports:
+    - name: server
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

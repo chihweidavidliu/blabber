@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blabber-redis-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blabber-redis
+  template:
+    metadata:
+      labels:
+        app: blabber-redis
+    spec:
+      containers:
+        - name: blabber-redis
+          image: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blabber-redis-srv
+spec:
+  selector:
+    app: blabber-redis
+  type: ClusterIP
+  ports:
+    - name: blabber-redis
+      protocol: TCP
+      port: 6379
+      targetPort: 6379
