@@ -17,6 +17,7 @@ import UserList from "../../components/UserList";
 import { Topbar } from "../../components/Topbar";
 
 const socket = io("/", {
+  // disable polling to avoid 'Session ID Unknown' when running multiple instances https://github.com/socketio/socket.io/issues/1739
   transports: ["websocket"]
 }); // default namespace
 

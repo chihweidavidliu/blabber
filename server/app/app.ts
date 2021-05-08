@@ -30,8 +30,9 @@ app.use(router);
 // socket io requires you to create a server via the http library
 const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
+    // disable polling to avoid 'Session ID Unknown' when running multiple instances https://github.com/socketio/socket.io/issues/1739
   transports: ["websocket"],
-  allowEIO3: true,
+  allowEIO3: true, // backwards compatibility with older socket.io-client versions
   cookie: {
     httpOnly: false
   }
