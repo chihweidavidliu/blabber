@@ -16,7 +16,7 @@ import MobileSidebar from "../../components/MobileSidebar";
 import UserList from "../../components/UserList";
 import { Topbar } from "../../components/Topbar";
 
-const socket = io(process.env.REACT_APP_SERVER_ENDPOINT as string);
+const socket = io("/api");
 
 const Grid = styled.div`
   display: grid;
